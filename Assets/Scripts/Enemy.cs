@@ -23,4 +23,23 @@ public class Enemy : MonoBehaviour
             transform.position = (new Vector3(spownpointx, 8));
         }
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            PlayerHealth playerHealth = other.gameObject.GetComponent<PlayerHealth>();
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(10);
+            } 
+            Destroy(gameObject);
+        }
+        if (other.gameObject.CompareTag("Laser"))
+        {
+            var Laser = GameObject.FindWithTag("Laser");
+            Destroy(Laser);
+            Destroy(gameObject);
+        }
+        
+    }
 }

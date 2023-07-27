@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _fireRate = 0.3f;
     private float _startFire = -1.0f;
+   
     void Start()
     {
         transform.position = new Vector3(0, 0, 0);
