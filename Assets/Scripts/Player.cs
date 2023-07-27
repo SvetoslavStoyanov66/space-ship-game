@@ -8,6 +8,9 @@ public class Player : MonoBehaviour
     private float _speed = 3.5f;
     [SerializeField]
     private GameObject _laserPrefab;
+    [SerializeField]
+    private float _fireRate = 0.3f;
+    private float _startFire = -1.0f;
     void Start()
     {
         transform.position = new Vector3(0, 0, 0);
@@ -17,11 +20,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         Movement();
-        
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Instantiate(_laserPrefab, transform.position, Quaternion.identity);
-        }
+        shootLazer();
         
        
         
@@ -51,5 +50,14 @@ public class Player : MonoBehaviour
         {
             transform.position = new Vector3(11.25f, transform.position.y, 0);
         }
+    }
+    void shootLazer()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _startFire)
+        {
+            _startFire = Time.time + _fireRate;
+            Instantiate(_laserPrefab, new Vector3(transform.position.x, transform.position.y + 0.9f), Quaternion.identity);
+        }
+
     }
 }
