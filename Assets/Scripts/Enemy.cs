@@ -19,7 +19,7 @@ public class Enemy : MonoBehaviour
         transform.Translate(Vector3.down * Time.deltaTime * _speed);
         if (transform.position.y < -4)
         {
-            int spownpointx = Random.Range(9, -9);
+            int spownpointx = Random.Range(-9, 9);
             transform.position = (new Vector3(spownpointx, 8));
         }
     }

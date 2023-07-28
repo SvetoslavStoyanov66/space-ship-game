@@ -309,6 +309,8 @@ GameObject:
   - component: {fileID: 1069273985}
   - component: {fileID: 1069273984}
   - component: {fileID: 1069273988}
+  - component: {fileID: 1069273989}
+  - component: {fileID: 1069273990}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -406,6 +408,31 @@ MonoBehaviour:
   _laserPrefab: {fileID: 4318883751409153578, guid: b83f577aba2340346a12e658181ba58b,
     type: 3}
   _fireRate: 0.3
+--- !u!114 &1069273989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1069273983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 207e453233090fa4dac3255fab975338, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1069273990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1069273983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0ed4155c03c6db469625c467eb902d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 10
 --- !u!1001 &4003571099223944646
 PrefabInstance:
   m_ObjectHideFlags: 0
