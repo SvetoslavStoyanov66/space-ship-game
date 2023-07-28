@@ -11,13 +11,15 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _fireRate = 0.3f;
     private float _startFire = -1.0f;
+    [SerializeField]
+    private bool _tribleActive = false;
+    [SerializeField]
+    private GameObject _triblePrefab;
     void Start()
     {
         
         transform.position = new Vector3(0, -1, 0);
     }
-    
-    // Update is called once per frame
     void Update()
     {
         Movement();
@@ -56,8 +58,26 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _startFire)
         {
             _startFire = Time.time + _fireRate;
-            Instantiate(_laserPrefab, new Vector3(transform.position.x, transform.position.y + 0.9f), Quaternion.identity);
+            if (_tribleActive == false) {
+                Instantiate(_laserPrefab, new Vector3(transform.position.x, transform.position.y + 0.9f), Quaternion.identity);
+            }
+            else
+            {
+                Instantiate(_triblePrefab, new Vector3(transform.position.x, transform.position.y ), Quaternion.identity);
+            }
         }
+    }
+
+    public void TribleShotActive()
+    {
+        _tribleActive = true;
+        StartCoroutine(TribleShotTimer());
+    }
+    IEnumerator TribleShotTimer()
+    {
+        yield return new WaitForSeconds(3);
+        _tribleActive = false;
 
     }
+   
 }
