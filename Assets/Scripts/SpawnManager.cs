@@ -9,7 +9,9 @@ public class SpawnManager : MonoBehaviour
     private float spawnDelay = 5.0f;
     [SerializeField]
     private GameObject prefabToSpawn;
-    // Start is called before the first frame update
+    [SerializeField]
+    private GameObject _Conteiner;
+    private bool _stopSpawning = false;
     void Start()
     {
         StartCoroutine(SpawnRoutine());
@@ -23,11 +25,16 @@ public class SpawnManager : MonoBehaviour
     IEnumerator SpawnRoutine()
     {
         int spawnx = Random.Range(-9, 9);
-        while (true)
+        while (_stopSpawning == false)
         {
 
-            Instantiate(prefabToSpawn, new Vector3(spawnx, 8, 0), Quaternion.identity);
+             GameObject Senemy = Instantiate(prefabToSpawn, new Vector3(spawnx, 8, 0), Quaternion.identity);
+            Senemy.transform.parent = _Conteiner.transform;
             yield return new WaitForSeconds(spawnDelay);
         }
+    }
+    public void OnPlayerDead()
+    {
+        _stopSpawning = true;
     }
 }
