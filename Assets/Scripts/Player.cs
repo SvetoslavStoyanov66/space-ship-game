@@ -15,10 +15,27 @@ public class Player : MonoBehaviour
     private bool _tribleActive = false;
     [SerializeField]
     private GameObject _triblePrefab;
+    public bool _speedActive = false;
+    private GameObject _speedPrefab;
+    public int maxHealth = 3;
+    private int currentHealth;
+    private SpawnManager spawnManager;
+    [SerializeField]
+    private GameObject shield;
+    [SerializeField]
+    private bool shieldActive = false;
+    [SerializeField]
+    private GameObject Shieldviz;
+    [SerializeField]
+    private int _score;
+    private UImanager Uscore;
     void Start()
     {
         
         transform.position = new Vector3(0, -1, 0);
+        spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
+        currentHealth = maxHealth;
+        Uscore = GameObject.Find("Canvas").GetComponent<UImanager>();
     }
     void Update()
     {
@@ -30,6 +47,14 @@ public class Player : MonoBehaviour
     }
     void Movement()
     {
+        if (_speedActive == true)
+        {
+            _speed = 10.0f;
+        }
+        else
+        {
+            _speed = 5.0f;
+        }
         float HorizontalInput = Input.GetAxis("Horizontal");
         transform.Translate(_speed * HorizontalInput * Time.deltaTime * Vector3.right);
 
@@ -79,5 +104,45 @@ public class Player : MonoBehaviour
         _tribleActive = false;
 
     }
-   
+    public void SpeedActive()
+    {
+        _speedActive = true;
+        StartCoroutine(SpeedTImer());
+    }
+    IEnumerator SpeedTImer()
+    {
+        yield return new WaitForSeconds(5);
+        _speedActive = false;
+    }
+    public void TakeDamage(int damageAmount)
+    {
+        if (shieldActive == true)
+        {
+            Shieldviz.SetActive(false);
+            shieldActive = false;
+            return;
+        }
+
+        currentHealth -= damageAmount;
+
+        Uscore.UpdateLives(currentHealth);
+
+        if (currentHealth < 1)
+        {
+            spawnManager.OnPlayerDead();
+            Destroy(gameObject);
+        }
+
+    }
+    public void ShieldActive()
+    {
+        Shieldviz.SetActive(true);
+        shieldActive = true;
+    }
+    public void AddScore(int points)
+    {
+        _score += points;
+        Uscore.ScoreDisplay(_score);
+    }
+
 }

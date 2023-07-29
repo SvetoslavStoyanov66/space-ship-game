@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField]
+    public Player script1Reference;
     private float _speed = 4f;
-
     // Start is called before the first frame update
+    private Player _player;
     void Start()
     {
-        
+        _player = GameObject.Find("Player").GetComponent<Player>();
     }
 
     // Update is called once per frame
@@ -25,21 +25,26 @@ public class Enemy : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
-            PlayerHealth playerHealth = other.gameObject.GetComponent<PlayerHealth>();
+            Player playerHealth = other.GetComponent<Player>();
             if (playerHealth != null)
             {
-                playerHealth.TakeDamage(10);
-            } 
+                _player.TakeDamage(1);
+            }
+            _player.AddScore(50);
             Destroy(gameObject);
         }
-        if (other.gameObject.CompareTag("Laser"))
+        else if (other.CompareTag("Laser")) // Check if the collider belongs to the laser.
         {
-            var Laser = GameObject.FindWithTag("Laser");
-            Destroy(Laser);
+            // Destroy the specific laser that collided with the enemy.
+            Destroy(other.gameObject);
+            if (_player != null)
+            {
+                _player.AddScore(30);
+            }
             Destroy(gameObject);
         }
-        
     }
+
 }

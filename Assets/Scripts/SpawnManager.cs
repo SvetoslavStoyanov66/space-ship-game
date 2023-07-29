@@ -10,14 +10,14 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private GameObject prefabToSpawn;
     [SerializeField]
-    private GameObject tribleSpawn;
+    private GameObject[] powerups;
     [SerializeField]
     private GameObject _Conteiner;
     private bool _stopSpawning = false;
     void Start()
     {
         StartCoroutine(SpawnEnemyRoutine());
-        StartCoroutine(SpawnTribleRoutine());
+        StartCoroutine(SpawnPowerupsRoutine());
     }
 
     // Update is called once per frame
@@ -35,12 +35,13 @@ public class SpawnManager : MonoBehaviour
             yield return new WaitForSeconds(spawnDelay);
         }
     } 
-    IEnumerator SpawnTribleRoutine()
+    IEnumerator SpawnPowerupsRoutine()
     {
         while (_stopSpawning == false)
         {
             int spawnx = Random.Range(-9, 9);
-            GameObject tribleBuff = Instantiate(tribleSpawn, new Vector3(spawnx, 8, 0), Quaternion.identity);
+            int randomPawerup = Random.Range(0, 3);
+            GameObject tribleBuff = Instantiate(powerups[randomPawerup], new Vector3(spawnx, 8, 0), Quaternion.identity);
             yield return new WaitForSeconds(Random.Range(3, 7));
         }
     }
