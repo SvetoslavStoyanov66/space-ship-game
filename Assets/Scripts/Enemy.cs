@@ -8,16 +8,20 @@ public class Enemy : MonoBehaviour
     private float _speed = 4f;
     // Start is called before the first frame update
     private Player _player;
+    Animator m_animator;
+    private Collider2D m_collider;
     void Start()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
+        m_animator = gameObject.GetComponent<Animator>();
+        m_collider = gameObject.GetComponent<Collider2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
         transform.Translate(Vector3.down * Time.deltaTime * _speed);
-        if (transform.position.y < -4)
+        if (transform.position.y < -10)
         {
             int spownpointx = Random.Range(-9, 9);
             transform.position = (new Vector3(spownpointx, 8));
@@ -33,7 +37,8 @@ public class Enemy : MonoBehaviour
                 _player.TakeDamage(1);
             }
             _player.AddScore(50);
-            Destroy(gameObject);
+            m_animator.SetTrigger("OnEnemyDeath");
+            m_collider.enabled = false;
         }
         else if (other.CompareTag("Laser")) // Check if the collider belongs to the laser.
         {
@@ -43,7 +48,8 @@ public class Enemy : MonoBehaviour
             {
                 _player.AddScore(30);
             }
-            Destroy(gameObject);
+            m_animator.SetTrigger("OnEnemyDeath");
+            m_collider.enabled = false;
         }
     }
 
