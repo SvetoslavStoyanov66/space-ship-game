@@ -16,6 +16,8 @@ public class UImanager : MonoBehaviour
     [SerializeField]
     private Text _restart;
     private GameManager _gameManager;
+    [SerializeField]
+    private Text _mainMenu;
     void Start()
     {
         _scoreText.text = "Score: " + 0;
@@ -31,6 +33,7 @@ public class UImanager : MonoBehaviour
     }
     public void TextApear()
     {
+        _mainMenu.gameObject.SetActive(true);
         _gameManager.GameOver();
         _restart.gameObject.SetActive(true);
         _GameOver.gameObject.SetActive(true);
