@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour
 {
     [SerializeField]
@@ -28,10 +28,10 @@ public class Player : MonoBehaviour
     private GameObject Shieldviz;
     [SerializeField]
     private int _score;
-    private UImanager Uscore;
+    private UImanager Uscore;    
     void Start()
     {
-        
+
         transform.position = new Vector3(0, -1, 0);
         spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         currentHealth = maxHealth;
@@ -128,7 +128,8 @@ public class Player : MonoBehaviour
         Uscore.UpdateLives(currentHealth);
 
         if (currentHealth < 1)
-        {
+        {    
+            Uscore.TextApear();
             spawnManager.OnPlayerDead();
             Destroy(gameObject);
         }
@@ -144,5 +145,4 @@ public class Player : MonoBehaviour
         _score += points;
         Uscore.ScoreDisplay(_score);
     }
-
 }
