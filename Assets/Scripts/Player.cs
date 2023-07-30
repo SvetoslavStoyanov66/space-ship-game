@@ -28,7 +28,14 @@ public class Player : MonoBehaviour
     private GameObject Shieldviz;
     [SerializeField]
     private int _score;
-    private UImanager Uscore;    
+    private UImanager Uscore;
+    [SerializeField]
+    private GameObject _thruster;
+    [SerializeField]
+    private GameObject fire1;
+    [SerializeField]
+    private GameObject fire2;
+    private bool isFirstObjectShown = false;
     void Start()
     {
 
@@ -123,9 +130,21 @@ public class Player : MonoBehaviour
             return;
         }
 
-        currentHealth -= damageAmount;
+        int fire = Random.Range(0, 2);
 
-        Uscore.UpdateLives(currentHealth);
+        currentHealth -= damageAmount;
+        if (currentHealth == 2)
+        {
+            fire1.SetActive(fire == 0);
+            fire2.SetActive(fire == 1);
+        }
+        else if (currentHealth == 1)
+        {
+            fire1.SetActive(true);
+            fire2.SetActive(true);
+        }
+ 
+            Uscore.UpdateLives(currentHealth);
 
         if (currentHealth < 1)
         {    
