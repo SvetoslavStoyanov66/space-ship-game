@@ -10,6 +10,8 @@ public class Enemy : MonoBehaviour
     private Player _player;
     Animator m_animator;
     private Collider2D m_collider;
+    [SerializeField]
+    private AudioSource _Explode;
     void Start()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
@@ -38,6 +40,7 @@ public class Enemy : MonoBehaviour
             }
             _player.AddScore(50);
             m_animator.SetTrigger("OnEnemyDeath");
+            _Explode.Play();
             m_collider.enabled = false;
         }
         else if (other.CompareTag("Laser")) // Check if the collider belongs to the laser.
@@ -49,6 +52,7 @@ public class Enemy : MonoBehaviour
                 _player.AddScore(30);
             }
             m_animator.SetTrigger("OnEnemyDeath");
+            _Explode.Play();
             m_collider.enabled = false;
         }
     }

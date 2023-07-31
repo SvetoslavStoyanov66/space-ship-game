@@ -36,13 +36,17 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject fire2;
     private bool isFirstObjectShown = false;
+    [SerializeField]
+    private AudioSource _laserShot;
+
+    [SerializeField] private AudioSource _powerup;
     void Start()
     {
 
         transform.position = new Vector3(0, -1, 0);
         spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         currentHealth = maxHealth;
-        Uscore = GameObject.Find("Canvas").GetComponent<UImanager>();
+        Uscore = GameObject.Find("Canvas").GetComponent<UImanager>(); _powerup = GetComponent<AudioSource>();
     }
     void Update()
     {
@@ -89,6 +93,7 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _startFire)
         {
+            _laserShot.Play();
             _startFire = Time.time + _fireRate;
             if (_tribleActive == false) {
                 Instantiate(_laserPrefab, new Vector3(transform.position.x, transform.position.y + 0.9f), Quaternion.identity);
@@ -163,5 +168,13 @@ public class Player : MonoBehaviour
     {
         _score += points;
         Uscore.ScoreDisplay(_score);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("powerup"))
+        {
+            _powerup.Play();
+        }
     }
 }

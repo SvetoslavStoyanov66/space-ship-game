@@ -8,6 +8,7 @@ public class TribleShotPowerup : MonoBehaviour
     private int powerupID; 
     [SerializeField]
     private float _speed = 3.0f;
+    
     // Start is called before the first frame update
     void Start()
     {
