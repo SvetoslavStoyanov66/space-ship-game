@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public Player script1Reference;
     private float _speed = 4f;
     // Start is called before the first frame update
     private Player _player;
@@ -12,8 +12,15 @@ public class Enemy : MonoBehaviour
     private Collider2D m_collider;
     [SerializeField]
     private AudioSource _Explode;
+    [SerializeField]
+    private GameObject _enemyLaser;
+    [SerializeField]
+    private AudioSource enemylasersound;
+    [SerializeField]
+    private GameObject _Thruster;
     void Start()
     {
+        StartCoroutine(FireCooldown());
         _player = GameObject.Find("Player").GetComponent<Player>();
         m_animator = gameObject.GetComponent<Animator>();
         m_collider = gameObject.GetComponent<Collider2D>();
@@ -41,6 +48,7 @@ public class Enemy : MonoBehaviour
             _player.AddScore(50);
             m_animator.SetTrigger("OnEnemyDeath");
             _Explode.Play();
+            _Thruster.SetActive(false);
             m_collider.enabled = false;
         }
         else if (other.CompareTag("Laser")) // Check if the collider belongs to the laser.
@@ -53,8 +61,26 @@ public class Enemy : MonoBehaviour
             }
             m_animator.SetTrigger("OnEnemyDeath");
             _Explode.Play();
+            _Thruster.SetActive(false);
             m_collider.enabled = false;
         }
     }
+    IEnumerator FireCooldown()
+    {
+        while (true)
+        {
+            enemylasersound.Play();
+            Instantiate(_enemyLaser,
+                new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z),
+                Quaternion.identity);
+            yield return new WaitForSeconds(Random.Range(1, 3));
+            enemylasersound.Play();
+            Instantiate(_enemyLaser,
+                new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z),
+                Quaternion.identity);
+            yield return new WaitForSeconds(Random.Range(1, 3));
+        }
+    }
+
 
 }
