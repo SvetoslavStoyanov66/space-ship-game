@@ -7,6 +7,7 @@ public class enemyLaser : MonoBehaviour
 {
     public Player _Player;
     private float _speed = 8.0f;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -16,6 +17,10 @@ public class enemyLaser : MonoBehaviour
     private void Update()
     {
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
+        if (transform.position.y > 8 || transform.position.y < -5)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)

@@ -39,6 +39,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private AudioSource _laserShot;
 
+    private Animator playerLeft;
+
     [SerializeField] private AudioSource _powerup;
     void Start()
     {

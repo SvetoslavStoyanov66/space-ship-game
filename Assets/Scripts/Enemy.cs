@@ -9,7 +9,7 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     private Player _player;
     Animator m_animator;
-    private Collider2D m_collider;
+    public Collider2D m_collider;
     [SerializeField]
     private AudioSource _Explode;
     [SerializeField]
@@ -18,6 +18,7 @@ public class Enemy : MonoBehaviour
     private AudioSource enemylasersound;
     [SerializeField]
     private GameObject _Thruster;
+    private bool isAlive = true;
     void Start()
     {
         StartCoroutine(FireCooldown());
@@ -48,7 +49,9 @@ public class Enemy : MonoBehaviour
             _player.AddScore(50);
             m_animator.SetTrigger("OnEnemyDeath");
             _Explode.Play();
+            StopCoroutine(FireCooldown());
             _Thruster.SetActive(false);
+            isAlive = false;
             m_collider.enabled = false;
         }
         else if (other.CompareTag("Laser")) // Check if the collider belongs to the laser.
@@ -61,13 +64,15 @@ public class Enemy : MonoBehaviour
             }
             m_animator.SetTrigger("OnEnemyDeath");
             _Explode.Play();
+            StopCoroutine(FireCooldown());
             _Thruster.SetActive(false);
+            isAlive = false;
             m_collider.enabled = false;
         }
     }
     IEnumerator FireCooldown()
     {
-        while (true)
+        while (isAlive == true)
         {
             enemylasersound.Play();
             Instantiate(_enemyLaser,
